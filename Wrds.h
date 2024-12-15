@@ -10,7 +10,7 @@ public:
 	Wrds() : kiekis(0), eilutes() {}
 	Wrds( int k, set<int> e) : kiekis(k), eilutes(e) {}
 
-	friend ostream& operator<<(ostream& out, const Wrds& student);
+	friend ostream& operator<<(ostream& out, const Wrds& zod);
 	
 };
 void read(const string& fileName, map<string, Wrds>& mp);
