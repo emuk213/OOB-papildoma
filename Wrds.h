@@ -5,11 +5,10 @@
 
 class Wrds {
 public:
-	string zodis;
 	int kiekis;
 	set<int> eilutes;
-	Wrds() : zodis(""), kiekis(0), eilutes() {}
-	Wrds(string z, int k, set<int> e) : zodis(z), kiekis(k), eilutes(e) {}
+	Wrds() : kiekis(0), eilutes() {}
+	Wrds( int k, set<int> e) : kiekis(k), eilutes(e) {}
 
 	friend ostream& operator<<(ostream& out, const Wrds& student);
 	
@@ -17,6 +16,7 @@ public:
 void read(const string& fileName, map<string, Wrds>& mp);
 void output(const string& fileName, const map<string, Wrds>& mp);
 string removePunctuation(const string& word);
+void findURL(const string& fileName);
 
 
 #endif // MYCLASS_H_INCLUDED
