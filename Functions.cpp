@@ -3,17 +3,20 @@
 
 string removePunctuation(const string& word) {
 	string result = word;
-	// Remove punctuation from the beginning and end of the word
 	while (!result.empty() && ispunct(result.back())) {
-		result.pop_back();
+			result.pop_back();	
 	}
+
 	while (!result.empty() && ispunct(result.front())) {
-		result.erase(result.begin());
+			result.erase(result.begin());
 	}
+
 	for (char& r : result) {
 		r = tolower(r);
 	}
+	
 	return result;
+	
 }
 
 void read(const string& fileName, map<string, Wrds>& mp) {
@@ -22,28 +25,27 @@ void read(const string& fileName, map<string, Wrds>& mp) {
 		if (!inFile.is_open()) {
 			throw runtime_error("Error: unable to open file: " + fileName);
 		}
-		else {
-			cout << "File opened successfully." << endl;  // Debug message
-		}
+
 		string line;
 		int cl = 1;
 		while (getline(inFile, line)) {
-			cout << "Reading line: " << cl << endl;
 			istringstream iss(line);
 			string word;
 			
-			while (iss >> word){
-				//mp[word].eilutes.clear();
+			while (iss >> word) {
 				word = removePunctuation(word);
-				if (mp.find(word) != mp.end()) {
-					mp[word].kiekis++;
-					mp[word].eilutes.insert(cl);
-				}
-				else {
-					mp[word] = Wrds(word, 1, {cl});
-					//mp.insert()
+				if (word != "") {
+					if (mp.find(word) != mp.end()) {
+						mp[word].kiekis++;
+						mp[word].eilutes.insert(cl);
+					}
+					else {
+						mp[word] = Wrds(1, { cl });
+						//mp.insert({ word, Wrds(1, {cl}) });
+					}
 				}
 			}
+			
 			cl++;
 		}
 		if (mp.empty()) {
@@ -58,21 +60,50 @@ void read(const string& fileName, map<string, Wrds>& mp) {
 	}
 }
 
+void findURL(const string& fileName) {
+	ifstream inFile(fileName);
+	try {
+		if (!inFile.is_open()) {
+			throw runtime_error("Error: unable to open file: " + fileName);
+		}
+		else {
+			cout << "File opened successfully." << endl;
+		}
+		string line;
+		while (getline(inFile, line)) {
+			istringstream iss(line);
+			string word;
+			while (iss >> word) {
+				word = removePunctuation(word);
+				if (word.substr(0, 4) == "www." || word.substr(0, 7) == "http://" || find(word.begin(), word.end(), '.') != word.end()) {
+					cout << word << endl;
+				}
+			}
+		}
+		
+		inFile.close();
+	}
+	catch (exception& e) {
+		cerr << e.what() << endl;
+		exit(EXIT_FAILURE);
+	}
+}
+
+
 void output(const string& fileName, const map<string, Wrds>& mp) {
 	ofstream out(fileName);
-	Wrds Lok;
-	out << setw(15) << left << "Zodis" << setw(5) << right << "Kiekis" << setw(20) << right << "Eilutes" << endl;
+	out << setw(25) << left << "Zodis" << setw(10) << left << "Kiekis"  <<setw(15) <<right << "Eilutes" << endl;
 	for (auto a : mp) {
 		if (a.second.kiekis > 1) {
-			out << a.second << "\n";
+			out << setw(25) << left << a.first << setw(10) << right << a.second << "\n";
 		}
 	}
 
 }
 
 ostream& operator<<(ostream& out, const Wrds& zod) {
-
-	out << setw(15) << left << zod.zodis << setw(3) << right << zod.kiekis << setw(19) << right;
+	out  << setw(10) << left << zod.kiekis << setw(10)<<right;
+	
 	for (auto& a : zod.eilutes) {
 		out << a << " ";
 	}
