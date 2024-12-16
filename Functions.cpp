@@ -49,7 +49,7 @@ void read(const string& fileName, map<string, Wrds>& mp) {
 			cl++;
 		}
 		if (mp.empty()) {
-			throw runtime_error("No words found in the file!" );
+			throw runtime_error("Error: no words found in the file" );
 		}
 		inFile.close();
 	}
@@ -65,9 +65,6 @@ void findURL(const string& fileName) {
 	try {
 		if (!inFile.is_open()) {
 			throw runtime_error("Error: unable to open file: " + fileName);
-		}
-		else {
-			cout << "File opened successfully." << endl;
 		}
 		string line;
 		while (getline(inFile, line)) {
